@@ -1,0 +1,19 @@
+[project]
+name = "snapper-tools"
+version = "0.0.1"
+description = "Utilities for Snapper on Arch-like Btrfs flat layouts."
+readme = "README.md"
+authors = [
+    { name = "Mazen Ahmed", email = "mazen001.ahmed001@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "btrfsutil>=7.1",
+]
+
+[project.scripts]
+snapper-tools = "snapper_tools:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"

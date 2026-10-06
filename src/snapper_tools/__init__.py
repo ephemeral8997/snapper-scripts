@@ -302,6 +302,13 @@ def cmd_delete(args, config):
 
 
 def main():
+    if os.geteuid() != 0:
+        print(
+            "Error: snapper-tools must be run as root.",
+            file=sys.stderr,
+        )
+        return 1
+
     args = build_parser().parse_args()
     config = configparser.ConfigParser()
     if not config.read(args.config):

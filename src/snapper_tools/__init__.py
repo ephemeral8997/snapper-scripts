@@ -31,11 +31,6 @@ def build_parser():
         "rollback", parents=[common], help="rollback to a snapper snapshot"
     )
     rollback.add_argument("snap_id", metavar="SNAPID", help="ID of snapper snapshot")
-    rollback.add_argument(
-        "--no-backup",
-        action="store_true",
-        help="delete the old root subvolume instead of keeping it as a backup",
-    )
     rollback.set_defaults(func=cmd_rollback)
 
     clean = sub.add_parser(
@@ -131,20 +126,7 @@ def restore_main(subvol, old, dry):
     do(dry, f"mv {old} {subvol}", os.rename, old, subvol)
 
 
-def drop_backup(old, dry):
-    try:
-        do(
-            dry,
-            f"btrfs subvolume delete {old}",
-            btrfsutil.delete_subvolume,
-            old,
-            recursive=True,
-        )
-    except btrfsutil.BtrfsUtilError as e:
-        print(f"failed to delete old root {old}, it was kept instead: {e}")
-
-
-def rollback(snap_id, config, dry, backup=True):
+def rollback(snap_id, config, dry):
     subvol = main_subvol(config)
     src = snapshots_dir(config) / snap_id / "snapshot"
     old = Path(f"{subvol}{datetime.now():%Y-%m-%dT%H:%M}")
@@ -169,10 +151,9 @@ def rollback(snap_id, config, dry, backup=True):
         restore_main(subvol, old, dry)
         return False
 
-    if not backup:
-        drop_backup(old, dry)
-
     print(f"{'[DRY-RUN] ' if dry else ''}Rollback to {src} complete. Reboot to finish")
+    print(f"Previous root kept as {old}. After rebooting, delete it with:")
+    print(f"  btrfs subvolume delete {old}")
     return True
 
 
@@ -182,7 +163,7 @@ def cmd_rollback(args, config):
         return 1
     if not mount_root(config, args.dry_run):
         return 1
-    done = rollback(args.snap_id, config, args.dry_run, not args.no_backup)
+    done = rollback(args.snap_id, config, args.dry_run)
     return 0 if done else 1
 
 

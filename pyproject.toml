@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-snapper-scripts = "snapper_tools:main"
+snapper-scripts = "snapper_scripts:main"
 
 [build-system]
 requires = ["uv_build>=0.12.23,<0.13.0"]

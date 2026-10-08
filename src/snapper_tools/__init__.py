@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-DEFAULT_CONFIG = "/etc/snapper-tools.conf"
+DEFAULT_CONFIG = "/etc/snapper-scripts.conf"
 CONFIRM = "CONFIRM"
 
 
@@ -22,7 +22,7 @@ def build_parser():
     )
 
     parser = argparse.ArgumentParser(
-        prog="snapper-tools",
+        prog="snapper-scripts",
         description="Utilities for Snapper on Arch-like Btrfs flat layouts",
     )
     sub = parser.add_subparsers(dest="command", required=True)
@@ -285,7 +285,7 @@ def cmd_delete(args, config):
 def main():
     if os.geteuid() != 0:
         print(
-            "Error: snapper-tools must be run as root.",
+            "Error: snapper-scripts must be run as root.",
             file=sys.stderr,
         )
         return 1

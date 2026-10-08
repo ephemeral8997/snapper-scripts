@@ -1,4 +1,4 @@
-snapper-tools is a set of utilities for [Snapper](http://snapper.io), a rollback tool for Btrfs filesystems, aimed at Arch-like systems with a [flat filesystem layout](https://wiki.archlinux.org/title/Snapper#Suggested_filesystem_layout).
+snapper-scripts is a set of utilities for [Snapper](http://snapper.io), a rollback tool for Btrfs filesystems, aimed at Arch-like systems with a [flat filesystem layout](https://wiki.archlinux.org/title/Snapper#Suggested_filesystem_layout).
 
 The reason this exists is that Snapper only supports openSUSE's layout, while the flat layout recommended by Arch (and used by most Arch-based systems) only lets you properly rollback via a live USB.
 
